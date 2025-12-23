@@ -1,0 +1,68 @@
+/* LAYOUT - DASHBOARD SHELL */
+.app-shell {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+    padding: 18px;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(10, 16, 28, 0.6);
+    }
+
+    .sidebar-brand {
+    margin-bottom: 18px;
+    }
+
+    .brand-title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0;
+    }
+
+    .brand-subtitle {
+    color: #93a4c7;
+    font-size: 12px;
+    margin-top: 4px;
+    }
+
+    .sidebar-nav {
+    display: grid;
+    gap: 8px;
+    }
+
+    .sidebar-link {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 12px;
+    color: #b8c6e3;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    }
+
+    .sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar-link.active {
+    background: rgba(46, 109, 255, 0.25);
+    color: #fff;
+    }
+
+    /* MAIN CONTENT AREA */
+    .app-main {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    }
+
+    .app-content {
+    flex: 1;
+    padding: 18px;
+    overflow-y: auto;
+    }

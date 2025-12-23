@@ -1,0 +1,35 @@
+/* LAYOUT - DASHBOARD SHELL */
+.app-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr; /* ✅ Ancho más cómodo */
+  min-height: 100vh;
+}
+
+/* SIDEBAR WRAPPER */
+.app-sidebar {
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(
+    180deg,
+    rgba(11, 18, 32, 0.95),
+    rgba(8, 14, 26, 0.98)
+  );
+  backdrop-filter: blur(10px);
+}
+
+/* MAIN CONTENT AREA */
+.app-main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 38, 1),
+    rgba(10, 16, 30, 1)
+  );
+}
+
+.app-content {
+  flex: 1;
+  padding: 32px 36px;
+  overflow-y: auto;
+}

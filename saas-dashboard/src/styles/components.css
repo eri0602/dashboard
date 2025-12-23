@@ -1,0 +1,63 @@
+/* =========================
+    COMPONENTS (GLOBAL)
+    ========================= */
+
+    /* ===== SECTIONS ===== */
+    .dashboard-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+    }
+
+    /* ===== CARDS ===== */
+    .dashboard-card {
+    background: linear-gradient(180deg, #0b1220, #050a14);
+    border-radius: 18px;
+    padding: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+
+    /* ===== CARD HEADER ===== */
+    .card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 14px;
+    }
+
+    .card-header h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e5e7eb;
+    }
+
+    .card-subtitle {
+    font-size: 12px;
+    color: #94a3b8;
+    }
+
+    /* ===== CARD CONTENT ===== */
+    .card-content {
+    width: 100%;
+    }
+
+    /* ===== GRID ===== */
+    .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    }
+
+    /* ===== TITLES ===== */
+    .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #e5e7eb;
+    }
+
+    .section-subtitle {
+    font-size: 12px;
+    color: #94a3b8;
+}
