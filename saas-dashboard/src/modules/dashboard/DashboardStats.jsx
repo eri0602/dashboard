@@ -8,45 +8,80 @@ import {
     } from "lucide-react";
     import "../../styles/dashboard.css";
 
-    export default function DashboardStats({ metrics, loading }) {
+    function StatCardSkeleton() {
+    return (
+        <div className="stat-card stat-card--skeleton" aria-busy="true">
+        <div className="stat-header">
+            <span className="skeleton skeleton-text skeleton-text--sm" />
+            <div className="stat-icon stat-icon--skeleton skeleton" />
+        </div>
+
+        <div className="skeleton skeleton-text skeleton-text--lg" />
+
+        <div className="stat-trend">
+            <span className="skeleton skeleton-text skeleton-text--md" />
+            <span className="skeleton skeleton-text skeleton-text--sm" />
+        </div>
+        </div>
+    );
+    }
+
+    export default function DashboardStats({ loading = false, metrics = null }) {
+    // Si está cargando -> 4 skeletons
+    if (loading) {
+        return (
+        <div className="stats-grid">
+            {Array.from({ length: 4 }).map((_, i) => (
+            <StatCardSkeleton key={i} />
+            ))}
+        </div>
+        );
+    }
+
+    // Si aún no hay data -> muestra valores vacíos (sin “inventar”)
+    const safe = metrics ?? {
+        revenue: null,
+        active_users: null,
+        conversion_rate: null,
+        avg_session: null, // esta la dejarás luego real
+    };
+
     const stats = [
         {
         label: "Total Revenue",
-        value: loading
-            ? "—"
-            : `$${metrics?.revenue?.toLocaleString() ?? 0}`,
-        trend: "+12%",
-        trendType: "up",
+        value:
+            safe.revenue == null ? "—" : `$${Number(safe.revenue).toLocaleString()}`,
+        trend: null,
+        trendType: "neutral",
         icon: DollarSign,
-        subtitle: "from last month",
+        subtitle: safe.revenue == null ? "No data yet" : "from last month",
         },
         {
         label: "Active Users",
-        value: loading
-            ? "—"
-            : metrics?.active_users?.toLocaleString() ?? 0,
-        trend: "+5%",
-        trendType: "up",
+        value: safe.active_users == null ? "—" : Number(safe.active_users).toLocaleString(),
+        trend: null,
+        trendType: "neutral",
         icon: Users,
-        subtitle: "from last week",
+        subtitle: safe.active_users == null ? "No data yet" : "from last week",
         },
         {
         label: "Conversion Rate",
-        value: loading
+        value:
+            safe.conversion_rate == null
             ? "—"
-            : `${metrics?.conversion_rate ?? 0}%`,
-        trend: "-2%",
-        trendType: "down",
+            : `${Number(safe.conversion_rate).toFixed(1)}%`,
+        trend: null,
+        trendType: "neutral",
         icon: Percent,
-        subtitle: "Good",
+        subtitle: safe.conversion_rate == null ? "No data yet" : "Good",
         },
         {
         label: "Avg. Session",
-        value: "4m 32s",
-        trend: "0%",
+        value: safe.avg_session == null ? "—" : safe.avg_session,
+        trend: null,
         trendType: "neutral",
         icon: Clock,
-        subtitle: "no change",
+        subtitle: safe.avg_session == null ? "No data yet" : "no change",
         },
     ];
 
@@ -54,6 +89,7 @@ import {
         <div className="stats-grid">
         {stats.map((item, index) => {
             const Icon = item.icon;
+            const showTrend = Boolean(item.trend);
 
             return (
             <div className="stat-card" key={index}>
@@ -67,9 +103,9 @@ import {
                 <div className="stat-value">{item.value}</div>
 
                 <div className={`stat-trend ${item.trendType}`}>
-                {item.trendType === "up" && <ArrowUpRight size={14} />}
-                {item.trendType === "down" && <ArrowDownRight size={14} />}
-                <span>{item.trend}</span>
+                {showTrend && item.trendType === "up" && <ArrowUpRight size={14} />}
+                {showTrend && item.trendType === "down" && <ArrowDownRight size={14} />}
+                {showTrend && <span>{item.trend}</span>}
                 <span className="stat-subtitle">{item.subtitle}</span>
                 </div>
             </div>
@@ -78,4 +114,5 @@ import {
         </div>
     );
 }
+
 

@@ -5,7 +5,7 @@ import "../../styles/dashboard.css";
 import { useDashboardMetrics } from "../../hooks/useDashboardMetrics";
 
 export default function Dashboard() {
-    const { metrics, loading, error } = useDashboardMetrics();
+    const { loading, metrics } = useDashboardMetrics();
 
     return (
         <div className="dashboard-page">
@@ -21,7 +21,7 @@ export default function Dashboard() {
 
             {/* ===== STATS ===== */}
             <section className="dashboard-section">
-                <DashboardStats metrics={metrics} loading={loading} />
+                <DashboardStats loading={loading} metrics={metrics}  />
             </section>
 
             {/* ===== GRÁFICO ===== */}

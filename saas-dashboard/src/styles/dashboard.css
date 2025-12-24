@@ -178,3 +178,54 @@
         min-height: 250px;
     }
     }
+
+    /* =========================
+    SKELETON (SHIMMER)
+    ========================= */
+    .skeleton {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    }
+
+    .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.10),
+        transparent
+    );
+    animation: shimmer 1.2s infinite;
+    }
+
+    @keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+    }
+
+    .skeleton-text {
+    display: block;
+    height: 12px;
+    width: 100%;
+    border-radius: 999px;
+    }
+
+    .skeleton-text--sm { width: 120px; height: 10px; }
+    .skeleton-text--md { width: 160px; height: 10px; }
+    .skeleton-text--lg { width: 190px; height: 28px; border-radius: 12px; }
+
+    .stat-card--skeleton {
+    pointer-events: none;
+    }
+
+    .stat-icon--skeleton {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    }
