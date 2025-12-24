@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import Login from "./auth/Login";
 import DashboardLayout from "./layout/DashboardLayout";
-
+import Products from "./modules/products/Products";
 import Dashboard from "./modules/dashboard/Dashboard";
 import Analytics from "./modules/analytics/Analytics";
 import Reports from "./modules/reports/Reports";
@@ -18,6 +18,7 @@ export default function App() {
       <Route path="/" element={<DashboardLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="analytics" element={<Analytics />} />
+        <Route path="products" element={<Products />} />
         <Route path="reports" element={<Reports />} />
         <Route path="users" element={<Users />} />
         <Route path="settings" element={<Settings />} />

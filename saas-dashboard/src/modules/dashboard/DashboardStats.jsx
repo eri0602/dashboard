@@ -8,6 +8,7 @@ import {
     } from "lucide-react";
     import "../../styles/dashboard.css";
 
+    /* ===== SKELETON CARD ===== */
     function StatCardSkeleton() {
     return (
         <div className="stat-card stat-card--skeleton" aria-busy="true">
@@ -27,7 +28,7 @@ import {
     }
 
     export default function DashboardStats({ loading = false, metrics = null }) {
-    // Si está cargando -> 4 skeletons
+    /* ===== LOADING ===== */
     if (loading) {
         return (
         <div className="stats-grid">
@@ -38,19 +39,21 @@ import {
         );
     }
 
-    // Si aún no hay data -> muestra valores vacíos (sin “inventar”)
+    /* ===== SAFE METRICS ===== */
     const safe = metrics ?? {
         revenue: null,
         active_users: null,
         conversion_rate: null,
-        avg_session: null, // esta la dejarás luego real
+        avg_session: null, // luego lo harás real
     };
 
     const stats = [
         {
         label: "Total Revenue",
         value:
-            safe.revenue == null ? "—" : `$${Number(safe.revenue).toLocaleString()}`,
+            safe.revenue == null
+            ? "—"
+            : `$${Number(safe.revenue).toLocaleString()}`,
         trend: null,
         trendType: "neutral",
         icon: DollarSign,
@@ -58,7 +61,10 @@ import {
         },
         {
         label: "Active Users",
-        value: safe.active_users == null ? "—" : Number(safe.active_users).toLocaleString(),
+        value:
+            safe.active_users == null
+            ? "—"
+            : Number(safe.active_users).toLocaleString(),
         trend: null,
         trendType: "neutral",
         icon: Users,
@@ -103,8 +109,12 @@ import {
                 <div className="stat-value">{item.value}</div>
 
                 <div className={`stat-trend ${item.trendType}`}>
-                {showTrend && item.trendType === "up" && <ArrowUpRight size={14} />}
-                {showTrend && item.trendType === "down" && <ArrowDownRight size={14} />}
+                {showTrend && item.trendType === "up" && (
+                    <ArrowUpRight size={14} />
+                )}
+                {showTrend && item.trendType === "down" && (
+                    <ArrowDownRight size={14} />
+                )}
                 {showTrend && <span>{item.trend}</span>}
                 <span className="stat-subtitle">{item.subtitle}</span>
                 </div>
@@ -114,5 +124,6 @@ import {
         </div>
     );
 }
+
 
 

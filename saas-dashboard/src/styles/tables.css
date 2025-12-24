@@ -82,3 +82,90 @@
 .table thead th {
   padding: 8px 12px;    /* antes 10px */
 }
+
+/* =========================
+   PRODUCTS HEADER ROW
+========================= */
+.dashboard-header--row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* =========================
+   PRIMARY BUTTON
+========================= */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+  border-radius: 12px;
+
+  background: linear-gradient(180deg, #3b82f6, #2563eb);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* =========================
+   TABLE WRAPPER
+========================= */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* =========================
+   ACTIONS COLUMN
+========================= */
+.th-actions {
+  text-align: right;
+  width: 120px;
+}
+
+.td-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* =========================
+   ICON ACTION BUTTONS
+========================= */
+.icon-action {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 10px;
+
+  color: #cbd5f5;
+  cursor: pointer;
+}
+
+.icon-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.icon-action.danger {
+  color: #f87171;
+}
+
+.icon-action.danger:hover {
+  background: rgba(248, 113, 113, 0.15);
+}

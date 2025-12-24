@@ -1,5 +1,8 @@
 import { supabase } from "./supabase";
 
+/**
+ * KPI: último snapshot
+ */
 export async function getLatestMetrics(userId) {
     if (!userId) return null;
 
@@ -17,4 +20,25 @@ export async function getLatestMetrics(userId) {
     }
 
     return data;
+    }
+
+    /**
+     * 📊 RevenueChart: histórico mensual
+     */
+    export async function getMonthlyRevenue(userId) {
+    if (!userId) return [];
+
+    const { data, error } = await supabase
+        .from("metrics")
+        .select("revenue, created_at")
+        .eq("user_id", userId)
+        .order("created_at", { ascending: true });
+
+    if (error) {
+        console.error("Error fetching monthly revenue:", error.message);
+        throw error;
+    }
+
+    return data;
 }
+

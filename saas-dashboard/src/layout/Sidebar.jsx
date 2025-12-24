@@ -1,14 +1,16 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, BarChart3, FileText, Users, Settings } from "lucide-react";
+import { LayoutDashboard, BarChart3, FileText, Users, Settings, Package } from "lucide-react";
 import "../styles/sidebar.css"; // ✅ Importar los estilos
 
 const nav = [
     { to: "/", label: "Dashboard", icon: LayoutDashboard },
     { to: "/analytics", label: "Analytics", icon: BarChart3 },
     { to: "/reports", label: "Reports", icon: FileText },
+    { to: "/products", label: "Products", icon: Package },
     { to: "/users", label: "Users", icon: Users },
     { to: "/settings", label: "Settings", icon: Settings },
-];
+    ];
+
 
 export default function Sidebar() {
     return (
