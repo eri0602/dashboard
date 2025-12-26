@@ -1,24 +1,50 @@
-import { useEffect, useState } from "react";
-import { getProducts } from "../services/products.service";
-import { useAuth } from "../context/auth.context";
+import { useCallback, useEffect, useState } from "react";
+import { createProduct as apiCreateProduct, getProducts as apiGetProducts } from "../services/products.service";
 
 export function useProducts() {
-    const { user } = useAuth();
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([]); // SIEMPRE array
     const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState("");
 
-    useEffect(() => {
-        if (!user) return;
-
-        async function load() {
+    const refresh = useCallback(async () => {
         setLoading(true);
-        const data = await getProducts(user.id);
-        setProducts(data);
-        setLoading(false);
+        setError("");
+
+        const { data, error: err } = await apiGetProducts();
+
+        if (err) {
+        setError(err.message || "No se pudieron cargar los productos");
+        setProducts([]);
+        } else {
+        setProducts(Array.isArray(data) ? data : []);
         }
 
-        load();
-    }, [user]);
+        setLoading(false);
+    }, []);
 
-    return { products, loading, setProducts };
+    useEffect(() => {
+        refresh();
+    }, [refresh]);
+
+    const createProduct = useCallback(async (payload) => {
+        setSaving(true);
+        setError("");
+
+        const { data, error: err } = await apiCreateProduct(payload);
+
+        if (err) {
+        setError(err.message || "No se pudo crear el producto");
+        setSaving(false);
+        return { ok: false, error: err };
+        }
+
+        // opción rápida: insertar al inicio (sin esperar recarga)
+        setProducts((prev) => [data, ...(Array.isArray(prev) ? prev : [])]);
+
+        setSaving(false);
+        return { ok: true, data };
+    }, []);
+
+    return { products, loading, saving, error, refresh, createProduct };
 }

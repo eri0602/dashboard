@@ -1,66 +1,98 @@
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { useProducts } from "../../hooks/useProducts";
+import CreateProductModal from "./CreateProductModal";
 import "../../styles/tables.css";
+import { Pencil, Trash2 } from "lucide-react";
 
 export default function Products() {
-    const { products, loading } = useProducts();
+    const { products, loading, error, createProduct } = useProducts();
+    const [openCreate, setOpenCreate] = useState(false);
 
     return (
         <div className="dashboard-page">
-        {/* ===== HEADER ===== */}
-        <div className="dashboard-header dashboard-header--row">
+        {/* HEADER */}
+        <div className="page-header">
             <div>
             <h1 className="dashboard-title">Products</h1>
-            <p className="dashboard-subtitle">
-                Manage your products catalog
-            </p>
+            <p className="dashboard-subtitle">Manage your products catalog</p>
             </div>
 
-            <button className="btn-primary">
-            <Plus size={16} />
-            New product
+            <button
+            className="nd-btn nd-btn--primary"
+            onClick={() => setOpenCreate(true)}
+            >
+            + New product
             </button>
         </div>
 
-        {/* ===== TABLE ===== */}
+        {/* CARD */}
         <div className="dashboard-card">
+            {error && <div className="nd-alert nd-alert--error">{error}</div>}
+
             {loading ? (
-            <p>Loading products…</p>
+            <p className="nd-muted">Loading products…</p>
             ) : products.length === 0 ? (
-            <p>No products yet</p>
+            <p className="nd-muted">No products yet</p>
             ) : (
-            <div className="table-wrapper">
-                <table className="table">
+            <div className="nd-table-wrap">
+                <table className="nd-table">
                 <thead>
                     <tr>
                     <th>Name</th>
-                    <th>Price</th>
-                    <th>Stock</th>
+                    <th className="nd-col-num">Price</th>
                     <th>Status</th>
-                    <th className="th-actions">Actions</th>
+                    <th className="nd-col-actions">Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {products.map((p) => (
                     <tr key={p.id}>
-                        <td>{p.name}</td>
-                        <td>${p.price}</td>
-                        <td>{p.stock ?? "—"}</td>
                         <td>
-                        <span className={`badge ${p.active ? "completed" : "pending"}`}>
-                            {p.active ? "Active" : "Inactive"}
+                        <div className="nd-cell-title">{p.name}</div>
+                        {p.description && (
+                            <div className="nd-cell-sub">{p.description}</div>
+                        )}
+                        </td>
+
+                        <td className="nd-col-num">
+                        ${Number(p.price).toFixed(2)}
+                        </td>
+
+                        <td>
+                        <span
+                            className={`nd-badge ${
+                            p.status === "active"
+                                ? "nd-badge--ok"
+                                : "nd-badge--warn"
+                            }`}
+                        >
+                            {p.status}
                         </span>
                         </td>
 
-                        <td className="td-actions">
-                        <button className="icon-action" aria-label="Edit">
+                        <td className="nd-col-actions">
+                        <div className="nd-actions">
+                            <button
+                            className="nd-icon-btn"
+                            title="Editar"
+                            onClick={() => console.log("Editar", p.id)}
+                            >
                             <Pencil size={16} />
-                        </button>
+                            </button>
 
-                        <button className="icon-action danger" aria-label="Delete">
+                            <button
+                            className="nd-icon-btn nd-icon-btn--danger"
+                            title="Eliminar"
+                            onClick={() => console.log("Eliminar", p.id)}
+                            >
                             <Trash2 size={16} />
-                        </button>
+                            </button>
+                        </div>
+
+                        <div className="nd-actions-hint">
+                            Edit/Delete in B3.2
+                        </div>
                         </td>
                     </tr>
                     ))}
@@ -69,9 +101,13 @@ export default function Products() {
             </div>
             )}
         </div>
+
+        {/* MODAL */}
+        <CreateProductModal
+            open={openCreate}
+            onClose={() => setOpenCreate(false)}
+            onCreated={createProduct}
+        />
         </div>
     );
 }
-
-
-

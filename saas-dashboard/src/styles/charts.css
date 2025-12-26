@@ -30,8 +30,8 @@
     /* CHART CONTAINER */
     .chart-container {
     width: 100%;
-    height: 350px;
-    min-height: 350px;
+    height: 320px;
+    min-height: 300px;
     position: relative;
     }
 

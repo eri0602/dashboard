@@ -169,3 +169,267 @@
 .icon-action.danger:hover {
   background: rgba(248, 113, 113, 0.15);
 }
+
+/* =========================
+   NexusDash — Products UI
+========================= */
+
+.page-header{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin: 0 0 18px 0;
+}
+
+.nd-muted{
+  color: rgba(200,210,230,.65);
+  margin: 0;
+}
+
+/* Alerts */
+.nd-alert{
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 14px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(15,23,38,.55);
+}
+.nd-alert--error{
+  border-color: rgba(248,113,113,.35);
+  background: rgba(248,113,113,.08);
+  color: #ffd1d1;
+}
+
+/* Buttons */
+.nd-btn{
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .15s ease, background .2s ease, border-color .2s ease;
+}
+.nd-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.09); }
+.nd-btn:disabled{ opacity:.55; cursor:not-allowed; transform:none; }
+
+.nd-btn--primary{
+  background: rgba(59,130,246,.85);
+  border-color: rgba(59,130,246,.55);
+}
+.nd-btn--primary:hover{ background: rgba(59,130,246,.95); }
+
+.nd-btn--ghost{
+  background: transparent;
+}
+
+/* Table */
+.nd-table-wrap{
+  width: 100%;
+  overflow: auto;
+  border-radius: 14px;
+}
+
+.nd-table{
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+.nd-table thead th{
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: rgba(200,210,230,.8);
+  padding: 14px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.nd-table tbody td{
+  padding: 14px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  vertical-align: middle;
+}
+.nd-table tbody tr:hover{
+  background: rgba(255,255,255,.03);
+}
+
+.nd-cell-title{
+  font-weight: 600;
+  color: #fff;
+}
+.nd-cell-sub{
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(200,210,230,.65);
+  max-width: 560px;
+}
+
+.nd-col-num{
+  width: 140px;
+  white-space: nowrap;
+}
+.nd-col-actions{
+  width: 220px;
+}
+
+.nd-actions{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.nd-actions-hint{
+  margin-top: 6px;
+  font-size: 11px;
+  color: rgba(200,210,230,.45);
+  text-align: right;
+}
+
+.nd-badge{
+  display:inline-flex;
+  align-items:center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(255,255,255,.08);
+}
+.nd-badge--ok{
+  background: rgba(74,222,128,.12);
+  border-color: rgba(74,222,128,.25);
+  color: #4ade80;
+}
+.nd-badge--warn{
+  background: rgba(251,191,36,.12);
+  border-color: rgba(251,191,36,.25);
+  color: #fbbf24;
+}
+
+.nd-icon-btn{
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  cursor: pointer;
+  display:grid;
+  place-items:center;
+  transition: transform .15s ease, background .2s ease;
+}
+.nd-icon-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+.nd-icon-btn--danger{
+  border-color: rgba(248,113,113,.35);
+  background: rgba(248,113,113,.08);
+}
+.nd-icon-btn--danger:hover{
+  background: rgba(248,113,113,.12);
+}
+
+/* =========================
+   Modal (PRO)
+========================= */
+.nd-modal-backdrop{
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.nd-modal-clickout{
+  position: fixed;
+  inset: 0;
+  border: 0;
+  background: rgba(0,0,0,.55);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+
+.nd-modal{
+  position: relative;
+  z-index: 10000;
+  width: min(720px, 94vw);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: linear-gradient(180deg, rgba(18, 28, 45, .92), rgba(8, 12, 22, .96));
+  box-shadow: 0 30px 80px rgba(0,0,0,.55);
+  overflow: hidden;
+}
+
+.nd-modal__header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 18px 18px 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.nd-modal__title{
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.nd-modal__subtitle{
+  margin: 6px 0 0 0;
+  font-size: 13px;
+  color: rgba(200,210,230,.65);
+}
+
+.nd-modal__body{
+  padding: 16px 18px 18px 18px;
+}
+
+.nd-form-grid{
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 14px;
+}
+
+.nd-field{ display:flex; flex-direction:column; gap: 8px; }
+.nd-field--full{ grid-column: 1 / -1; }
+
+.nd-label{
+  font-size: 12px;
+  color: rgba(200,210,230,.70);
+}
+
+.nd-input, .nd-textarea, .nd-select{
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.06);
+  color: #fff;
+  padding: 10px 12px;
+  outline: none;
+}
+.nd-input:focus, .nd-textarea:focus, .nd-select:focus{
+  border-color: rgba(59,130,246,.55);
+  box-shadow: 0 0 0 3px rgba(59,130,246,.18);
+}
+
+.nd-textarea{ resize: vertical; }
+
+.nd-help{
+  font-size: 11px;
+  color: rgba(200,210,230,.45);
+}
+
+.nd-modal__footer{
+  display:flex;
+  justify-content:flex-end;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+@media (max-width: 640px){
+  .nd-form-grid{ grid-template-columns: 1fr; }
+  .nd-col-actions{ width: 160px; }
+  .nd-table{ min-width: 620px; }
+}
+
+
