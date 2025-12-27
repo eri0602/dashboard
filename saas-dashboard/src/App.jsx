@@ -22,7 +22,7 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
-          <Route path="analytics" element={<Analytics />} />
+          <Route path="/analytics" element={<Analytics />} />
           <Route path="products" element={<Products />} />
           <Route path="reports" element={<Reports />} />
           <Route path="users" element={<Users />} />

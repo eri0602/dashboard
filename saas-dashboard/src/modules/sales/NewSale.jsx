@@ -2,6 +2,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSales } from "../../hooks/useSales";
+import { useToast } from "../../hooks/useToast";  // ✅ AÑADIR
+import Toast from "../../components/ui/Toast";     // ✅ AÑADIR
 import { getProducts } from "../../services/products.service";
 import { Search, Plus, Minus, Trash2, ShoppingCart, X } from "lucide-react";
 import "../../styles/tables.css";
@@ -10,6 +12,7 @@ import "../../styles/filters.css";
 export default function NewSale() {
     const navigate = useNavigate();
     const { createOrder, saving } = useSales();
+    const { toast, success, error: showError, hideToast } = useToast();  // ✅ AÑADIR
     
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
@@ -121,7 +124,8 @@ export default function NewSale() {
     };
 
     // Confirmar venta
-const handleConfirmSale = async () => {
+    const [showToast, setShowToast] = useState(false);
+    const handleConfirmSale = async () => {
     console.log("🔵 INICIANDO VENTA");
     
     if (cart.length === 0) {
@@ -145,21 +149,29 @@ const handleConfirmSale = async () => {
 
     if (result?.error) {
         console.error("❌ ERROR:", result.error);
-        setError(result.error.message || "Error al crear la venta");
+        showError(result.error.message || "Error al crear la venta");  // ✅ CAMBIAR
         return;
     }
 
     if (result?.ok) {
         console.log("🎉 VENTA EXITOSA");
         clearCart();
-        alert("¡Venta creada exitosamente!");
+        success("¡Venta creada exitosamente! 🎉");
         navigate("/sales/orders");
     }
 };
 
     return (
-        <div className="dashboard-page">
-            {/* HEADER */}
+    <div className="dashboard-page">
+        {/* Toast notification */}
+        {toast && (
+            <Toast
+                message={toast.message}
+                type={toast.type}
+                duration={toast.duration}
+                onClose={hideToast}
+            />
+        )}
             <div className="page-header">
                 <div>
                     <h1 className="dashboard-title">Nueva Venta</h1>

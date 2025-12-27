@@ -1,6 +1,9 @@
 // src/modules/sales/Orders.jsx
 import { useState, useMemo } from "react";
 import { useSales } from "../../hooks/useSales";
+import { useToast } from "../../hooks/useToast";
+import Toast from "../../components/ui/Toast";
+import ConfirmDialog from "../../components/ui/ConfirmDialog";
 import OrderDetailsModal from "./OrderDetailsModal";
 import { Search, Eye, XCircle, Trash2, Calendar, DollarSign } from "lucide-react";
 import "../../styles/tables.css";
@@ -8,18 +11,24 @@ import "../../styles/filters.css";
 
 export default function Orders() {
     const { orders, loading, saving, error, cancelOrder, deleteOrder } = useSales();
+    const { toast, success, error: showError, hideToast } = useToast();
     
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("all");
     const [dateFilter, setDateFilter] = useState("all");
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
+    
+    // Estados para confirmaciones
+    const [showCancelConfirm, setShowCancelConfirm] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [orderToCancel, setOrderToCancel] = useState(null);
+    const [orderToDelete, setOrderToDelete] = useState(null);
 
     // Filtrar órdenes
     const filteredOrders = useMemo(() => {
         let filtered = [...orders];
 
-        // Filtro por búsqueda (ID o notas)
         if (searchTerm) {
             filtered = filtered.filter(o =>
                 o.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -27,12 +36,10 @@ export default function Orders() {
             );
         }
 
-        // Filtro por estado
         if (statusFilter !== "all") {
             filtered = filtered.filter(o => o.status === statusFilter);
         }
 
-        // Filtro por fecha
         if (dateFilter !== "all") {
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -79,32 +86,32 @@ export default function Orders() {
         setShowDetailsModal(true);
     };
 
-    const handleCancelOrder = async (orderId) => {
-        if (!window.confirm("¿Estás seguro de cancelar esta venta? Se devolverá el stock.")) {
-            return;
-        }
+    const handleCancelOrder = async () => {
+        if (!orderToCancel) return;
 
-        const result = await cancelOrder(orderId);
+        const result = await cancelOrder(orderToCancel);
         
         if (result?.ok) {
-            alert("Venta cancelada exitosamente");
+            success("Venta cancelada exitosamente");
         } else {
-            alert(result?.error?.message || "Error al cancelar la venta");
+            showError(result?.error?.message || "Error al cancelar la venta");
         }
+        
+        setOrderToCancel(null);
     };
 
-    const handleDeleteOrder = async (orderId) => {
-        if (!window.confirm("¿Estás seguro de eliminar esta venta? Esta acción no se puede deshacer.")) {
-            return;
-        }
+    const handleDeleteOrder = async () => {
+        if (!orderToDelete) return;
 
-        const result = await deleteOrder(orderId);
+        const result = await deleteOrder(orderToDelete);
         
         if (result?.ok) {
-            alert("Venta eliminada exitosamente");
+            success("Venta eliminada exitosamente");
         } else {
-            alert(result?.error?.message || "Error al eliminar la venta");
+            showError(result?.error?.message || "Error al eliminar la venta");
         }
+        
+        setOrderToDelete(null);
     };
 
     const formatDate = (dateString) => {
@@ -133,6 +140,46 @@ export default function Orders() {
 
     return (
         <div className="dashboard-page">
+            {/* Toast notification */}
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    duration={toast.duration}
+                    onClose={hideToast}
+                />
+            )}
+
+            {/* Confirm Dialog - Cancelar */}
+            <ConfirmDialog
+                isOpen={showCancelConfirm}
+                onClose={() => {
+                    setShowCancelConfirm(false);
+                    setOrderToCancel(null);
+                }}
+                onConfirm={handleCancelOrder}
+                title="Cancelar Venta"
+                message="¿Estás seguro de cancelar esta venta? El stock de los productos será devuelto automáticamente."
+                confirmText="Sí, cancelar"
+                cancelText="No, mantener"
+                type="warning"
+            />
+
+            {/* Confirm Dialog - Eliminar */}
+            <ConfirmDialog
+                isOpen={showDeleteConfirm}
+                onClose={() => {
+                    setShowDeleteConfirm(false);
+                    setOrderToDelete(null);
+                }}
+                onConfirm={handleDeleteOrder}
+                title="Eliminar Venta"
+                message="¿Estás seguro de eliminar esta venta? Esta acción no se puede deshacer."
+                confirmText="Sí, eliminar"
+                cancelText="Cancelar"
+                type="danger"
+            />
+
             {/* HEADER */}
             <div className="page-header">
                 <div>
@@ -226,7 +273,6 @@ export default function Orders() {
             {/* FILTROS Y BÚSQUEDA */}
             <div className="dashboard-card" style={{ marginBottom: "20px" }}>
                 <div className="filters-container">
-                    {/* Búsqueda */}
                     <div className="search-box">
                         <Search size={18} />
                         <input
@@ -237,7 +283,6 @@ export default function Orders() {
                         />
                     </div>
 
-                    {/* Filtros */}
                     <div className="filters-row">
                         <select
                             value={statusFilter}
@@ -361,7 +406,10 @@ export default function Orders() {
                                                             type="button"
                                                             className="nd-icon-btn nd-icon-btn--warn"
                                                             title="Cancelar venta"
-                                                            onClick={() => handleCancelOrder(order.id)}
+                                                            onClick={() => {
+                                                                setOrderToCancel(order.id);
+                                                                setShowCancelConfirm(true);
+                                                            }}
                                                             disabled={saving}
                                                         >
                                                             <XCircle size={16} />
@@ -373,7 +421,10 @@ export default function Orders() {
                                                             type="button"
                                                             className="nd-icon-btn nd-icon-btn--danger"
                                                             title="Eliminar"
-                                                            onClick={() => handleDeleteOrder(order.id)}
+                                                            onClick={() => {
+                                                                setOrderToDelete(order.id);
+                                                                setShowDeleteConfirm(true);
+                                                            }}
                                                             disabled={saving}
                                                         >
                                                             <Trash2 size={16} />
